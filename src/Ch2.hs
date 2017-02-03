@@ -1,7 +1,10 @@
 module Ch2
     (
       fib,
-      isSorted
+      isSorted,
+      myCurry,
+      myUncurry,
+      compose
     ) where
 
 fib :: Integer -> Integer
@@ -18,3 +21,12 @@ isSorted (x:xs) ordered = isSorted' x xs
     isSorted' a (y:ys) | null ys = True
                        | not (ordered a y) = False
                        | otherwise = isSorted' y ys
+
+myCurry :: (a -> b -> c) -> (a -> (b -> c))
+myCurry f = \a -> (\b -> f a b)
+
+myUncurry :: (a -> (b -> c)) -> (a -> b -> c)
+myUncurry f = \x y -> ((f x) y)
+
+compose :: (a -> b) -> (b -> c) -> (a -> c)
+compose f g = \a -> g (f a)
