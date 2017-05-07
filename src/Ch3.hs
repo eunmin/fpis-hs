@@ -18,7 +18,9 @@ module Ch3
     toStringAll,
     myFilter,
     flatMap,
-    filter2
+    filter2,
+    sumList,
+    myZipWith
     ) where
 
 myTail :: [a] -> [a]
@@ -88,7 +90,9 @@ filter2 :: [a] -> (a -> Bool) -> [a]
 filter2 xs f = flatMap xs (\x -> [x | f x])
 
 sumList :: [Integer] -> [Integer] -> [Integer]
-sumList xs ys = myMap xs (\x -> )
+sumList [] [] = []
+sumList (x:xs) (y:ys) = append2 [(x + y)] (sumList xs ys)
 
-myZipWith :: [a] -> [a] -> [a]
-myZipWith xs ys = []
+myZipWith :: (a -> a -> a) -> [a] -> [a] -> [a]
+myZipWith _ [] [] = []
+myZipWith f (x:xs) (y:ys) = append2 [f x y] (myZipWith f xs ys)
