@@ -20,8 +20,12 @@ module Ch3
     flatMap,
     filter2,
     sumList,
-    myZipWith
+    myZipWith,
+    allSubList,
+    hasSubsequence
     ) where
+
+import Data.List
 
 myTail :: [a] -> [a]
 myTail (_:xs) = xs
@@ -96,3 +100,16 @@ sumList (x:xs) (y:ys) = append2 [(x + y)] (sumList xs ys)
 myZipWith :: (a -> a -> a) -> [a] -> [a] -> [a]
 myZipWith _ [] [] = []
 myZipWith f (x:xs) (y:ys) = append2 [f x y] (myZipWith f xs ys)
+
+myInits :: [a] -> [[a]]
+myInits [] = []
+myInits xs = append2 [xs] (myInits (myInit xs))
+
+allSubList :: [a] -> [[a]]
+allSubList [] = []
+allSubList xs = append2 (myInits xs) (allSubList (myTail xs))
+
+hasSubsequence :: Eq a => [a] -> [a] -> Bool
+hasSubsequence xs ys = foldLeft (allSubList xs) False (\x result -> if result
+                                                                      then result
+                                                                      else x == ys)
