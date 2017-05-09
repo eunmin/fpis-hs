@@ -22,7 +22,15 @@ module Ch3
     sumList,
     myZipWith,
     allSubList,
-    hasSubsequence
+    hasSubsequence,
+    Tree(Leaf, Branch),
+    nodeCount,
+    maxValue,
+    treeDepth,
+    treeMap,
+    nodeCount2,
+    maxValue2,
+    treeDepth2
     ) where
 
 import Data.List
@@ -113,3 +121,30 @@ hasSubsequence :: Eq a => [a] -> [a] -> Bool
 hasSubsequence xs ys = foldLeft (allSubList xs) False (\x result -> if result
                                                                       then result
                                                                       else x == ys)
+
+data Tree a = Leaf a | Branch (Tree a) (Tree a)
+
+nodeCount :: Tree a -> Int
+nodeCount (Leaf x) = 1
+nodeCount (Branch left right) = (nodeCount left) + (nodeCount right)
+
+maxValue :: (Ord a) => Tree a -> a
+maxValue (Leaf x) = x
+maxValue (Branch left right) = max (maxValue left) (maxValue right)
+
+treeDepth :: Tree a -> Int
+treeDepth (Leaf x) = 0
+treeDepth (Branch left right) = (max (treeDepth left) (treeDepth right)) + 1
+
+treeMap :: (b -> b -> b) -> (a -> b) -> Tree a -> b
+treeMap bf lf (Leaf x) = lf x
+treeMap bf lf (Branch left right) = bf (treeMap bf lf left) (treeMap bf lf right)
+
+nodeCount2 :: Tree a -> Int
+nodeCount2 tree = treeMap (\x y -> x + y) (\x -> 1) tree
+
+maxValue2 :: (Ord a) => Tree a -> a
+maxValue2 tree = treeMap (\x y -> max x y) (\x -> x) tree
+
+treeDepth2 :: Tree a -> Int
+treeDepth2 tree = treeMap (\x y -> (max x y) + 1) (\x -> 0) tree
