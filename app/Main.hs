@@ -3,7 +3,7 @@ module Main where
 import Lib
 import Ch2
 import Ch3
-import Data.List
+import Ch4
 
 main :: IO ()
 main = someFunc

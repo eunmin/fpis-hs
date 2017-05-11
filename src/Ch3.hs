@@ -33,8 +33,6 @@ module Ch3
     treeDepth2
     ) where
 
-import Data.List
-
 myTail :: [a] -> [a]
 myTail (_:xs) = xs
 
